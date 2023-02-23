@@ -1,0 +1,28 @@
+﻿@page
+@model CreateRoleModel
+@{
+    ViewData["Title"] = "Roles";
+}
+
+<h1>@ViewData["Title"]</h1>
+<form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+    <div class="row">
+        <div class="col-md-6">
+
+            <h4>Create a new role.</h4>
+            <hr />
+            <div class="form_group">
+                <label asp-for="Input.RoleName"></label>
+                <input asp-for="Input.RoleName" class="form-control" />
+                <span asp-validation-for="Input.RoleName" class="text-danger"></span>
+            </div>
+            <hr />
+            <button type="submit" class="btn btn-primary">Create Role</button>
+
+        </div>
+    </div>
+</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>

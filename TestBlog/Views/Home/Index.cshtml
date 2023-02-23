@@ -1,0 +1,37 @@
+﻿@model TestBlog.Models.HomeViewModels.IndexViewModel
+@using PagedList.Core.Mvc
+
+
+
+    <div class="container">
+        <form asp-controller="Home" asp-action="Index" class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+            <div class="input-group mb-3">
+                <input asp-for="SearchString" type="text" class="form-control bg-light border-0 small" placeholder="Search for Posts..." aria-label="Search" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fas fa-search fa-sm"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+        <div class="row align-content-center">
+            @foreach (var blog in Model.Blogs)
+            {
+                <div class="col-lg-4 col-md-3 mb-4">
+                    <div class="card border-0 shadow">
+                        <img src="~/UserFiles/Blogs/@blog.Id/HeaderImage.jpg" class="card-img-top">
+                        <div class="card-body">
+                            <div class="row text-center" style="margin: 0px auto 10px 0px;">
+                                <h5 class="card-title text-center w-100"><a asp-controller="Blog" asp-action="Index" asp-route-id="@blog.Id">@blog.Title</a></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div list="@Model.Blogs" count="2">
+            <pager class="pager-container" list="@Model.Blogs" options="@PagedListRenderOptions.Bootstrap4PageNumbersPlusPrevAndNext" asp-action="Index" asp-controller="Home" asp-route-query="@Model.SearchString" />
+        </div>
+    </div>
+
+
