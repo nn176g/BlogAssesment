@@ -13,13 +13,13 @@ using TestBlog.Data.Models;
 namespace TestBlog.Areas.Identity.Pages.Roles
 {
     [AllowAnonymous]
-    public class ListRoles2Model : PageModel
+    public class ListRolesModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger<CreateRoleModel> _logger;
 
-        public ListRoles2Model(
+        public ListRolesModel(
             SignInManager<ApplicationUser> signInManager,
             RoleManager<IdentityRole> roleManager,
             ILogger<CreateRoleModel> logger)
@@ -33,14 +33,6 @@ namespace TestBlog.Areas.Identity.Pages.Roles
         public IQueryable<IdentityRole> Output { get; set; }
         public string ReturnUrl { get; set; }
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
-
-        public class InputModel
-        {
-            [Required]
-            [Display(Name = "RoleName")]
-            public string RoleName { get; set; }
-
-        }
 
         public async Task OnGetAsync(string returnUrl = null)
         {

@@ -16,6 +16,8 @@ namespace TestBlog.Controllers
         {
             _blogBusinessManager=blogBusinessManager ;
         }
+
+        [Authorize(Roles ="Public,Writer,Editor")]
         [Route("Blog/{id}"), AllowAnonymous]
         public IActionResult Index(int? id)
         {
@@ -33,12 +35,14 @@ namespace TestBlog.Controllers
             return View( new CreateViewModel());
         }
         [HttpPost]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> Add(CreateViewModel createBlogViewModel)
         {
            await _blogBusinessManager.CreateBlog(createBlogViewModel,User);
             return RedirectToAction("Index","Admin");
         }
 
+        [Authorize(Roles = "Writer")]
         public IActionResult Edit(int? id)
         {
             var result=  _blogBusinessManager.GetEditViewModel(id,User);
@@ -71,7 +75,9 @@ namespace TestBlog.Controllers
             }
             return View(result);
         }
+        
         [HttpPost]
+        [Authorize(Roles = "Public,Writer,Editor")]
         public async Task<IActionResult> Comment(BlogViewModel blogViewModel)
         {
             var result = await _blogBusinessManager.CreateComment(blogViewModel, User);
