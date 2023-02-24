@@ -8,6 +8,7 @@ using TestBlog.Models.BlogViewModels;
 namespace TestBlog.Controllers
 {
     [Authorize]
+    [Authorize(Roles = "Writer")]
     public class BlogController : Controller
     {
         private readonly IBlogBusinessManager _blogBusinessManager;
@@ -17,7 +18,6 @@ namespace TestBlog.Controllers
             _blogBusinessManager=blogBusinessManager ;
         }
 
-        [Authorize(Roles ="Public,Writer,Editor")]
         [Route("Blog/{id}"), AllowAnonymous]
         public IActionResult Index(int? id)
         {
@@ -30,19 +30,23 @@ namespace TestBlog.Controllers
             return result.Result;
         }
 
+        [Route("Create")]
         public IActionResult Create()
         {
             return View( new CreateViewModel());
         }
+
         [HttpPost]
-        [Authorize(Roles = "Writer")]
+        [Route("Add")]
+        //[Authorize(Roles = "Writer")]
         public async Task<IActionResult> Add(CreateViewModel createBlogViewModel)
         {
            await _blogBusinessManager.CreateBlog(createBlogViewModel,User);
             return RedirectToAction("Index","Admin");
         }
 
-        [Authorize(Roles = "Writer")]
+        //[Authorize(Roles = "Writer")]
+        [Route("Edit")]
         public IActionResult Edit(int? id)
         {
             var result=  _blogBusinessManager.GetEditViewModel(id,User);
@@ -55,6 +59,7 @@ namespace TestBlog.Controllers
         }
 
         [HttpPost]
+        [Route("Update")]
         public async Task<IActionResult> Update(EditViewModel editViewModel)
         {
             var result = await _blogBusinessManager.UpdateBlog(editViewModel,User);
@@ -65,6 +70,7 @@ namespace TestBlog.Controllers
             }
             return result.Result;
         }
+        [Route("Delete")]
         public IActionResult Delete(int id)
         {
             var result =  _blogBusinessManager.DeleteBlog(id);
@@ -77,7 +83,8 @@ namespace TestBlog.Controllers
         }
         
         [HttpPost]
-        [Authorize(Roles = "Public,Writer,Editor")]
+        [Route("Comment")]
+        //[Authorize(Roles = "Public,Writer,Editor")]
         public async Task<IActionResult> Comment(BlogViewModel blogViewModel)
         {
             var result = await _blogBusinessManager.CreateComment(blogViewModel, User);

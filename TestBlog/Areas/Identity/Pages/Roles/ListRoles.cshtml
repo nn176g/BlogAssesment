@@ -1,6 +1,5 @@
 ﻿@page
 @model ListRolesModel
-<li>
     <div>
         @if (Model.Output.Any())
         {
@@ -14,8 +13,8 @@
                         <h5 class="card-title">@role.Name</h5>
                     </div>
                     <div class="card-footer">
-                        <a asp-controller="Roles" asp-action="EditRole"asp-route-id="@role.Id" class="btn btn-primary">Edit</a>
-                        <form asp-controller="Roles" asp-action="DeleteRole" asp-route-id="@role.Id" method="post">
+                    <form asp-action="DeleteRole" asp-route-id="@role.Id" asp-controller="Roles" method="post">
+                        <a class="btn btn-primary" asp-action="EditRole" asp-controller="Roles" asp-route-id="@role.Id">Edit</a>
                             <span id="deleteSpan_@role.Id">
                                 <a href="#" class="btn btn-danger" onclick="confirmDelete('@role.Id', true)">Delete</a>
                             </span>
@@ -25,8 +24,7 @@
                                 <button type="submit" class="btn btn-danger">Yes</button>
                                 <a href="#" class="btn btn-primary" onclick="confirmDelete('@role.Id', false)">No</a>
                             </span>
-
-                        </form>
+                    </form>
                     </div>
                 </div>
             }
@@ -48,4 +46,3 @@
             </div>
         }
     </div>
-</li>
